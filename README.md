@@ -38,7 +38,16 @@ PORT=3000
 EXTERNAL_API_KEY=your_api_key_here
 ```
 
-Get your API key from the chosen external public API service in `https://newsapi.org/`
+### Obtaining your NewsAPI Key
+
+To use the `/news` endpoint, you need a NewsAPI API key. Follow these steps:
+
+1. Go to [https://newsapi.org](https://newsapi.org) and sign up or log in.
+2. Click on the **"Get API Key"** button. The image below shows where to click:
+
+![NewsAPI Key Generation](./docs/newsapi-helper.png)
+
+> The red arrow in the image points to the button where you can generate your API key.
 
 ### Running the Project
 
@@ -102,7 +111,9 @@ It also caches the results in memory for 10 minutes to improve performance.
 ```json
 {
   "fromCache": false,
-  "articles": [
+  "totalResults": 120, 
+  "page": 1,
+  "news": [
     {
       "title": "Bitcoin hits new high",
       "source": "CryptoNews",
@@ -116,7 +127,9 @@ It also caches the results in memory for 10 minutes to improve performance.
 ```
 
 - fromCache: true if the result came from the cache, false if fetched from the external API.
-- articles: array of news articles (max 5).
+- totalResults: total number of news found for the topic.
+- page: current page number.
+- news: array of news news (max 5).
 
 ### 2. GET `/history`
 
@@ -145,12 +158,12 @@ Returns the list of the last news queries made to /news, including topic, filter
 ### API Decisions / Limits
 
 The API consumes data from NewsAPI, a free public news service.  
-To ensure consistent responses and avoid overwhelming the user with information, each request to the `/news` endpoint returns **a maximum of 5 articles** with pagination possible, by querying the next 5 articles in the list.
+To ensure consistent responses and avoid overwhelming the user with information, each request to the `/news` endpoint returns **a maximum of 5 news** with pagination possible, by querying the next 5 news in the list.
 
 Users can filter results using the `filterBy` parameter, which accepts three options:
 
-- `relevancy` – returns articles most relevant to the topic.  
-- `popularity` – returns articles that are currently most popular.  
-- `publishedAt` – returns articles sorted by publication date (default).  
+- `relevancy` – returns news most relevant to the topic.  
+- `popularity` – returns news that are currently most popular.  
+- `publishedAt` – returns news sorted by publication date (default).  
 
 These limits provide useful information to the client, and I also wanted an additional parameter for the request body.
