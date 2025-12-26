@@ -42,8 +42,10 @@ EXTERNAL_API_KEY=your_api_key_here
 
 To use the `/news` endpoint, you need a NewsAPI API key. Follow these steps:
 
-1. Go to [https://newsapi.org](https://newsapi.org) and sign up or log in.
+1. Go to [https://newsapi.org](https://newsapi.org).
 2. Click on the **"Get API Key"** button. The image below shows where to click:
+3. Complete the registration form to create your api key.
+4. Copy the generated API key and paste it into your `.env` file.
 
 ![NewsAPI Key Generation](./docs/newsapi-helper.png)
 
@@ -167,3 +169,9 @@ Users can filter results using the `filterBy` parameter, which accepts three opt
 - `publishedAt` – returns news sorted by publication date (default).  
 
 These limits provide useful information to the client, and I also wanted an additional parameter for the request body.
+
+### Technical Decisions
+
+- **Input Validation with Zod:** I chose Zod to validate request bodies because it provides a clear, declarative schema definition and generates meaningful error messages. This ensures that the `/news` endpoint only processes valid topics and filter options.
+
+- **Error Handling and Failed Requests:** All errors, including validation failures, are handled. Invalid requests are returned with a clear error message, and **all attempts—successful or failed—are recorded in the in-memory history**. Failed queries are marked with `failed: true` to distinguish them from successful requests, making it easier to debug and track usage for potential business decisions.
