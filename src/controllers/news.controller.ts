@@ -27,15 +27,15 @@ export const getNews = async (req: Request, res: Response) => {
     const cached = await cache.get(cacheKey);
     if (cached !== undefined) {
       addToHistory(topic, sortBy);
-      return res.json({ fromCache: true, articles: cached });
+      return res.json({ fromCache: true, news: cached });
     }
 
     //! Fetch news data
-    const { articles, totalResults } = await fetchNewsByTopic({ topic, filterBy: sortBy, page: pageNumber });
-    await cache.set(cacheKey, articles);
+    const { news, totalResults } = await fetchNewsByTopic({ topic, filterBy: sortBy, page: pageNumber });
+    await cache.set(cacheKey, news);
     addToHistory(topic, sortBy);
 
-    return res.json({ fromCache: false, totalResults, page: pageNumber, articles });
+    return res.json({ fromCache: false, totalResults, page: pageNumber, news });
   } catch (err: any) {
     return res.status(500).json({ error: "Failed to fetch news data", details: err.message });
   }

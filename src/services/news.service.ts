@@ -14,9 +14,9 @@ export const fetchNewsByTopic = async ({ topic, filterBy, page = 1 }: FetchNewsP
   if (!apiKey) throw new Error("Missing EXTERNAL_API_KEY");
 
   const url = `${BASE_URL}/everything`;
-  console.log(`${url}?q=${topic}&sortBy=${filterBy}&pageSize=5`);
 
   try {
+    console.log("Fetching news with params:", { topic, filterBy, page });
     const response = await axios.get(url, {
       params: {
         q: topic,
@@ -26,7 +26,7 @@ export const fetchNewsByTopic = async ({ topic, filterBy, page = 1 }: FetchNewsP
         page,
         apiKey,
       },
-      timeout: 5000, // opcional: timeout de 5 segundos
+      timeout: 5000,
     });
 
     const data = response.data;
@@ -35,7 +35,7 @@ export const fetchNewsByTopic = async ({ topic, filterBy, page = 1 }: FetchNewsP
       throw new Error(JSON.stringify(data));
     }
 
-    return { articles: mapNewsResponse(data.articles), totalResults: data.totalResults };
+    return { news: mapNewsResponse(data.news), totalResults: data.totalResults };
   } catch (err: any) {
     throw new Error(`Failed to fetch news: ${err.message}`);
   }

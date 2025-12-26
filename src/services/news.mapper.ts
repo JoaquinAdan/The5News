@@ -1,4 +1,4 @@
-type ArticlesMapper = {
+type NewsMapper = {
   title: string;
   source: { name: string };
   author: string;
@@ -6,11 +6,11 @@ type ArticlesMapper = {
   url: string;
 }[];
 
-export const mapNewsResponse = (articles: ArticlesMapper) =>
-  articles.map((article) => ({
-    title: article.title,
-    source: article.source.name,
-    author: article.author,
-    publishedAt: article.publishedAt,
-    url: article.url,
+export const mapNewsResponse = (news: NewsMapper) =>
+  news.map((newsItem) => ({
+    title: newsItem.title,
+    source: newsItem.source.name,
+    author: newsItem.author,
+    publishedAt: newsItem.publishedAt,
+    url: newsItem.url,
   }));
