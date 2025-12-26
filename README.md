@@ -75,9 +75,9 @@ src/
  ├── services/
  ├── routes/
  ├── utils/
- ├── cache/
- ├── tests/
- └── app.js
+ ├── schemas/
+ |── app.js
+ └── server.js
 ```
 
 ## ✅ Features Implemented
