@@ -28,14 +28,12 @@ export const fetchNewsByTopic = async ({ topic, filterBy, page = 1 }: FetchNewsP
       },
       timeout: 5000,
     });
-
     const data = response.data;
 
     if (data.status !== "ok") {
       throw new Error(JSON.stringify(data));
     }
-
-    return { news: mapNewsResponse(data.news), totalResults: data.totalResults };
+    return { news: mapNewsResponse(data.articles), totalResults: data.totalResults };
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     throw new Error(`Failed to fetch news: ${message}`);
