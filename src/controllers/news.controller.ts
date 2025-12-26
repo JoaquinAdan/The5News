@@ -11,8 +11,8 @@ export const getNews = async (req: Request, res: Response) => {
     if (!parsed.success) {
       const messages = parsed.error.issues.map((e) => e.message);
 
-      const topic = (req.body.topic as string) || "unknown";
-      const filterBy = (req.body.filterBy as string) || "unknown";
+      const topic = req.body.topic || null;
+      const filterBy = req.body.filterBy || null;
       addToHistory(topic, filterBy, true);
 
       return res.status(400).json({ error: messages.join(", ") });
@@ -36,7 +36,8 @@ export const getNews = async (req: Request, res: Response) => {
     addToHistory(topic, sortBy);
 
     return res.json({ fromCache: false, totalResults, page: pageNumber, news });
-  } catch (err: any) {
-    return res.status(500).json({ error: "Failed to fetch news data", details: err.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    return res.status(500).json({ error: "Failed to fetch news data", details: message });
   }
 };

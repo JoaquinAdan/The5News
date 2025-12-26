@@ -36,7 +36,8 @@ export const fetchNewsByTopic = async ({ topic, filterBy, page = 1 }: FetchNewsP
     }
 
     return { news: mapNewsResponse(data.news), totalResults: data.totalResults };
-  } catch (err: any) {
-    throw new Error(`Failed to fetch news: ${err.message}`);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    throw new Error(`Failed to fetch news: ${message}`);
   }
 };

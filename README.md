@@ -65,6 +65,8 @@ The server will start on `http://localhost:3000`
 npm test
 ```
 
+This will run all tests configured with Vitest and display the results report in the console.
+
 ## 📁 Project Structure ( example )
 
 ```

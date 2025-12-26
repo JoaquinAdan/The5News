@@ -1,13 +1,13 @@
 export interface NewsRequest {
-  topic: string;
-  filterBy: string;
+  topic: string | null;
+  filterBy: string | null;
   requestedAt: string;
   failed?: boolean;
 }
 
 export const newsHistory: NewsRequest[] = [];
 
-export const addToHistory = (topic: string, filterBy: string, failed = false) => {
+export const addToHistory = (topic: string | null, filterBy: string | null, failed = false) => {
   newsHistory.push({
     topic,
     filterBy,
