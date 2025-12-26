@@ -9,13 +9,16 @@ export const getNews = async (req: Request, res: Response) => {
     //! Validate request body
     const parsed = newsSchema.safeParse(req.body);
     if (!parsed.success) {
-      const messages = parsed.error.issues.map((e) => e.message);
+      const messages = parsed.error.issues.map((issue) => {
+        const field = issue.path.join(".") || "unknown field";
+        return { field: field, message: issue.message };
+      });
 
       const topic = req.body.topic || null;
       const filterBy = req.body.filterBy || null;
       addToHistory(topic, filterBy, true);
 
-      return res.status(400).json({ error: messages.join(", ") });
+      return res.status(400).json({ errors: messages });
     }
 
     const { topic, filterBy, page } = parsed.data;
