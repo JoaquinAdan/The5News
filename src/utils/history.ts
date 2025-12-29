@@ -8,14 +8,18 @@ export interface NewsRequest {
 export const newsHistory: NewsRequest[] = [];
 
 export const addToHistory = (topic: string | null, filterBy: string | null, failed = false) => {
-  newsHistory.push({
-    topic,
-    filterBy,
-    requestedAt: new Date().toISOString(),
-    failed,
-  });
+  try {
+    newsHistory.push({
+      topic,
+      filterBy,
+      requestedAt: new Date().toISOString(),
+      failed,
+    });
 
-  if (newsHistory.length > 100) {
-    newsHistory.shift();
+    if (newsHistory.length > 100) {
+      newsHistory.shift();
+    }
+  } catch (error) {
+    console.error('Failed to add to history:', error);
   }
 };
