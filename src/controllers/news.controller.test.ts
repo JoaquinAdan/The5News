@@ -53,21 +53,39 @@ describe("getNews controller", () => {
         url: "https://test.com",
       },
     ];
-    mockedFetch.mockResolvedValueOnce({ news: fakeNews, totalResults: 1 });
 
-    vi.mocked(historyModule.addToHistory).mockResolvedValue(undefined);
+    mockedFetch.mockResolvedValueOnce({
+      news: fakeNews,
+      totalResults: 1,
+    });
+
+    mockedHistory.addToHistory.mockResolvedValue(undefined);
 
     await getNews(req, res);
 
     const expectedCacheKey = "bitcoin:relevancy:page2";
+
     expect(mockedCache.cache.get).toHaveBeenCalledWith(expectedCacheKey);
+
     expect(mockedFetch).toHaveBeenCalledWith({
       topic: "bitcoin",
       filterBy: "relevancy",
       page: 2,
     });
-    expect(mockedCache.cache.set).toHaveBeenCalledWith(expectedCacheKey, fakeNews);
-    expect(mockedHistory.addToHistory).toHaveBeenCalledWith("bitcoin", "relevancy");
+
+    expect(mockedCache.cache.set).toHaveBeenCalledWith(
+      expectedCacheKey,
+      {
+        totalResults: 1,
+        page: 2,
+        news: fakeNews,
+      }
+    );
+
+    expect(mockedHistory.addToHistory).toHaveBeenCalledWith(
+      "bitcoin",
+      "relevancy"
+    );
 
     expect(res.json).toHaveBeenCalledWith({
       fromCache: false,
@@ -109,15 +127,31 @@ describe("getNews controller", () => {
       },
     ];
 
-    mockedCache.cache.get = vi.fn().mockResolvedValue(cachedNews);
+    const cachedData = {
+      totalResults: 1,
+      page: 1,
+      news: cachedNews,
+    };
+
+    mockedCache.cache.get = vi.fn().mockResolvedValue(cachedData);
 
     await getNews(req, res);
 
-    expect(mockedCache.cache.get).toHaveBeenCalledWith("bitcoin:relevancy:page1");
+    expect(mockedCache.cache.get).toHaveBeenCalledWith(
+      "bitcoin:relevancy:page1"
+    );
+
     expect(mockedFetch).not.toHaveBeenCalled();
-    expect(mockedHistory.addToHistory).toHaveBeenCalledWith("bitcoin", "relevancy");
+
+    expect(mockedHistory.addToHistory).toHaveBeenCalledWith(
+      "bitcoin",
+      "relevancy"
+    );
+
     expect(res.json).toHaveBeenCalledWith({
       fromCache: true,
+      totalResults: 1,
+      page: 1,
       news: cachedNews,
     });
   });
