@@ -16,7 +16,7 @@ describe("fetchNewsByTopic", () => {
     mockedAxios.get.mockResolvedValueOnce({
       data: {
         status: "ok",
-        news: [
+        articles: [
           {
             title: "Test",
             source: { name: "Source" },
