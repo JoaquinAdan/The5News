@@ -13,7 +13,7 @@ The implementation focuses on clean architecture, input validation, error handli
 - Node.js
 - Express
 - JavaScript
-- Jest
+- Vitest
 - Axios / Fetch
 
 ## 🚀 Getting Started
