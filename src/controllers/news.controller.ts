@@ -30,7 +30,6 @@ export const getNews = async (req: Request, res: Response) => {
     const cached = await cache.get(cacheKey);
     if (cached !== undefined) {
       addToHistory(topic, sortBy);
-      console.log('se corto')
       return res.json({ fromCache: true, ...cached });
     }
 

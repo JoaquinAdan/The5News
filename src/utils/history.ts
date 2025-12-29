@@ -16,7 +16,6 @@ export const addToHistory = (topic: string | null, filterBy: string | null, fail
       failed,
     });
     const maxHistoryLength = process.env.HISTORY_MAX_LENGTH ? parseInt(process.env.HISTORY_MAX_LENGTH) : 50;
-    console.log(maxHistoryLength)
     if (newsHistory.length > maxHistoryLength) {
       newsHistory.shift();
     }
