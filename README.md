@@ -41,6 +41,8 @@ REFRESH_THRESHOLD_MILLISECONDS=60000 # 1 minute in milliseconds, 60 * 1000
 HISTORY_MAX_LENGTH=100
 ```
 
+Some of these values could be defined as constants in the code, but they are exposed as environment variables to keep the application flexible. This allows configuration changes (such as cache duration or limits) without modifying the code and makes it easier to adapt settings per environment.
+
 ### Obtaining your NewsAPI Key
 
 To use the `/news` endpoint, you need a NewsAPI API key. Follow these steps:
