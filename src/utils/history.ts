@@ -15,11 +15,12 @@ export const addToHistory = (topic: string | null, filterBy: string | null, fail
       requestedAt: new Date().toISOString(),
       failed,
     });
-
-    if (newsHistory.length > 100) {
+    const maxHistoryLength = process.env.HISTORY_MAX_LENGTH ? parseInt(process.env.HISTORY_MAX_LENGTH) : 50;
+    console.log(maxHistoryLength)
+    if (newsHistory.length > maxHistoryLength) {
       newsHistory.shift();
     }
   } catch (error) {
-    console.error('Failed to add to history:', error);
+    console.error("Failed to add to history:", error);
   }
 };

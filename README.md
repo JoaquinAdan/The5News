@@ -36,6 +36,9 @@ Create a .env file at the root of the project and define the required variables:
 ```env
 PORT=3000
 EXTERNAL_API_KEY=your_api_key_here
+CACHE_TTL_MILLISECONDS=600000  # 10 minutes in milliseconds, 10 * 60 * 1000
+REFRESH_THRESHOLD_MILLISECONDS=60000 # 1 minute in milliseconds, 60 * 1000
+HISTORY_MAX_LENGTH=100
 ```
 
 ### Obtaining your NewsAPI Key
@@ -62,7 +65,13 @@ The server will start on `http://localhost:3000`
 ### Running Tests
 
 ```bash
-npm test
+npm run test
+```
+
+or for coverage report:
+
+```bash
+npm run test:coverage
 ```
 
 This will run all tests configured with Vitest and display the results report in the console.
@@ -115,7 +124,7 @@ It also caches the results in memory for 10 minutes to improve performance.
 ```json
 {
   "fromCache": false,
-  "totalResults": 120, 
+  "totalResults": 120,
   "page": 1,
   "news": [
     {
@@ -166,9 +175,9 @@ To ensure consistent responses and avoid overwhelming the user with information,
 
 Users can filter results using the `filterBy` parameter, which accepts three options:
 
-- `relevancy` – returns news most relevant to the topic.  
-- `popularity` – returns news that are currently most popular.  
-- `publishedAt` – returns news sorted by publication date (default).  
+- `relevancy` – returns news most relevant to the topic.
+- `popularity` – returns news that are currently most popular.
+- `publishedAt` – returns news sorted by publication date (default).
 
 These limits provide useful information to the client, and I also wanted an additional parameter for the request body.
 
